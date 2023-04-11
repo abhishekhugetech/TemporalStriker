@@ -1,4 +1,4 @@
-module github.com/abhishekhugetech/TemporalStriker
+module github.com/abhishekhugetech/temporalstriker
 
 go 1.19
 
