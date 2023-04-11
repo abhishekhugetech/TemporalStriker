@@ -1,4 +1,4 @@
-package TemporalStriker
+package temporalstriker
 
 import (
 	"context"
@@ -9,9 +9,9 @@ import (
 	"go.temporal.io/sdk/workflow"
 	"go.uber.org/zap"
 
-	"github.com/abhishekhugetech/TemporalStriker/bench"
-	"github.com/abhishekhugetech/TemporalStriker/types"
-	"github.com/abhishekhugetech/TemporalStriker/utils"
+	"github.com/abhishekhugetech/temporalstriker/bench"
+	"github.com/abhishekhugetech/temporalstriker/types"
+	"github.com/abhishekhugetech/temporalstriker/utils"
 )
 
 func Start(config types.MaruConfig) {
