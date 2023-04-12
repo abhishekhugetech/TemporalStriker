@@ -1,0 +1,19 @@
+{
+    "steps": [{
+        "count": 2,
+        "concurrency": 1,
+        "ratePerSecond": 1
+    }],
+    "workflow": {
+        "name": "dummy-workflow",
+        "taskQueue": "taskQueue",
+        "args": {
+            "signalData": {
+                "some-json-signal": {
+                    "some-json-key" :"value"
+                },
+                "some-string-signal": "string message"
+            }
+        }
+    }
+}
