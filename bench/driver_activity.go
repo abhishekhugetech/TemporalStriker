@@ -124,6 +124,16 @@ func (d *benchDriver) execute(iterationID int) error {
 		d.logger.Error("failed to start workflow", "Error", err, "ID", workflowID)
 	}
 
+	// We'll process the signal data that will be sent to the workflow
+	workflowParams, paramsFlag := d.request.Parameters.(map[string]interface{})
+	signals, signalFlag := workflowParams["signalData"].(map[string]interface{})
+	if paramsFlag && signalFlag {
+		for signalName := range signals {
+			signalData := signals[signalName]
+			d.client.SignalWorkflow(d.ctx, workflowID, "", signalName, signalData)
+		}
+	}
+
 	d.logger.Info("driver.execute completed", "workflowName", d.request.WorkflowName, "basedID", d.request.BaseID, "iterationID", iterationID)
 	return err
 }
