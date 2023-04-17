@@ -46,6 +46,17 @@ func buildPayload(params interface{}) interface{} {
 	return news
 }
 
+func handleInputPayload(input []interface{}) {
+	for i := range input {
+		v := input[i]
+		if str, ok := v.(string); ok {
+			if newValue, ok := eval(str); ok {
+				input[i] = newValue
+			}
+		}
+	}
+}
+
 var randomRegex = regexp.MustCompile(`\$RANDOM\(([0-9]+)\)`)
 var randomNormRegex = regexp.MustCompile(`\$RANDOM_NORM\(([0-9]+),([0-9]+)\)`)
 

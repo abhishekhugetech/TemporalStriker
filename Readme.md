@@ -162,3 +162,8 @@ If the Metrics handler is attached to our temporal client, We'll be able to acce
 
 
 **For see the sample implementation of TemporalStriker, Please refer to the Sample package.**
+
+
+### TODO:
+
+- [ ] test does not completes when using UUID workflow IDs
