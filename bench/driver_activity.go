@@ -27,6 +27,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"go.temporal.io/sdk/activity"
 	"go.temporal.io/sdk/client"
@@ -112,17 +113,32 @@ func (d *benchDriver) run() error {
 
 func (d *benchDriver) execute(iterationID int) error {
 	d.logger.Info("driver.execute starting", "workflowName", d.request.WorkflowName, "basedID", d.request.BaseID, "iterationID", iterationID)
-	workflowID := fmt.Sprintf("%s-%s-%d", d.request.WorkflowName, d.request.BaseID, iterationID)
+
+	// Parsing the input for the workflow
+	workflowParams, paramsFlag := d.request.Parameters.(map[string]interface{})
+	input, _ := workflowParams["input"].([]interface{})
+
+	// parse workflow id type
+	var workflowID string
+	workflowIdType, _ := workflowParams["idType"].(string)
+	switch workflowIdType {
+	case "uuid":
+		{
+			workflowID = uuid.New().String()
+		}
+	default:
+		{
+			workflowID = fmt.Sprintf("%s-%s-%d", d.request.WorkflowName, d.request.BaseID, iterationID)
+		}
+	}
+
+	// generate the workflow options
 	startOptions := client.StartWorkflowOptions{
 		ID:                       workflowID,
 		TaskQueue:                d.request.TaskQueueName,
 		WorkflowExecutionTimeout: 30 * time.Minute,
 		WorkflowTaskTimeout:      defaultWorkflowTaskStartToCloseTimeoutDuration,
 	}
-
-	// Parsing the input for the workflow
-	workflowParams, paramsFlag := d.request.Parameters.(map[string]interface{})
-	input, _ := workflowParams["input"].([]interface{})
 
 	_, err := d.client.ExecuteWorkflow(d.ctx, startOptions, d.request.WorkflowName, input...)
 	if err != nil {
