@@ -58,7 +58,11 @@ func startBenchWorker(
 		MaxConcurrentLocalActivityExecutionSize: 256,
 		MaxConcurrentActivityExecutionSize:      256,
 	}
-	worker := worker.New(serviceClient, "temporal-bench", workerOptions)
+	taskQueue := config.TaskQueue
+	if taskQueue == "" {
+		taskQueue = "temporal-bench"
+	}
+	worker := worker.New(serviceClient, taskQueue, workerOptions)
 	worker.RegisterWorkflowWithOptions(bench.Workflow, workflow.RegisterOptions{Name: "bench-workflow"})
 	worker.RegisterActivityWithOptions(bench.NewActivities(serviceClient), activity.RegisterOptions{Name: "bench-"})
 	err := worker.Start()

@@ -36,6 +36,7 @@ func StartMaruClient() {
 		Namespace:              namespace,
 		TemporalHostPort:       hostPort,
 		SkipNamespaceCreation:  false,
+		TaskQueue:              "temporal-bench",
 		StickyCacheSize:        10000,
 		PrometheusPort:         prometheusPort,
 		MaxWorkflowTaskPollers: numDecisionPollers,
