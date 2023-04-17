@@ -13,7 +13,15 @@
                     "some-json-key" :"value"
                 },
                 "some-string-signal": "string message"
-            }
+            },
+            "input": [
+                "name",
+                {
+                    "name": "abhishek",
+                    "description": "abhishek description",
+                    "type": "string"
+                }
+            ]
         }
     }
 }

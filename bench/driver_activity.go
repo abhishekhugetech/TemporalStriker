@@ -119,13 +119,17 @@ func (d *benchDriver) execute(iterationID int) error {
 		WorkflowExecutionTimeout: 30 * time.Minute,
 		WorkflowTaskTimeout:      defaultWorkflowTaskStartToCloseTimeoutDuration,
 	}
-	_, err := d.client.ExecuteWorkflow(d.ctx, startOptions, d.request.WorkflowName, buildPayload(d.request.Parameters))
+
+	// Parsing the input for the workflow
+	workflowParams, paramsFlag := d.request.Parameters.(map[string]interface{})
+	input, _ := workflowParams["input"].([]interface{})
+
+	_, err := d.client.ExecuteWorkflow(d.ctx, startOptions, d.request.WorkflowName, input...)
 	if err != nil {
 		d.logger.Error("failed to start workflow", "Error", err, "ID", workflowID)
 	}
 
-	// We'll process the signal data that will be sent to the workflow
-	workflowParams, paramsFlag := d.request.Parameters.(map[string]interface{})
+	// Parsing the signal for the workflow
 	signals, signalFlag := workflowParams["signalData"].(map[string]interface{})
 	if paramsFlag && signalFlag {
 		for signalName := range signals {
