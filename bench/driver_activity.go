@@ -116,7 +116,9 @@ func (d *benchDriver) execute(iterationID int) error {
 
 	// Parsing the input for the workflow
 	workflowParams, paramsFlag := d.request.Parameters.(map[string]interface{})
-	input, _ := workflowParams["input"].([]interface{})
+	inputPayload, _ := workflowParams["input"].([]interface{})
+	input := make([]interface{}, len(inputPayload))
+	copy(input, inputPayload)
 	handleInputPayload(input)
 
 	// parse workflow id type
