@@ -15,7 +15,6 @@ import (
 func StartMaruClient() {
 	namespace := "benchtest"
 	hostPort := "127.0.0.1:7233"
-	prometheusPort := 9090
 	numDecisionPollers := 10
 
 	// Creating a new temporal client
@@ -38,7 +37,6 @@ func StartMaruClient() {
 		SkipNamespaceCreation:  false,
 		TaskQueue:              "temporal-bench",
 		StickyCacheSize:        10000,
-		PrometheusPort:         prometheusPort,
 		MaxWorkflowTaskPollers: numDecisionPollers,
 	}
 

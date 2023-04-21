@@ -28,7 +28,7 @@ go get github.com/abhishekhugetech/temporalstriker
 ```go
 namespace := "benchtest"
 hostPort := "127.0.0.1:7233"
-prometheusPort := 9090
+ := 9090
 numDecisionPollers := 10
 
 // Creating a new temporal client
@@ -77,8 +77,6 @@ c := types.MaruConfig{
 		TemporalHostPort:       hostPort,
 		SkipNamespaceCreation:  false,
 		StickyCacheSize:        10000,
-        // Port on which Prometheus metrics would be exposed
-		PrometheusPort:         prometheusPort,
 		MaxWorkflowTaskPollers: numDecisionPollers,
 }
 ```
@@ -142,11 +140,6 @@ serviceClient, err := client.Dial(client.Options{
     ConnectionOptions: client.ConnectionOptions{
         TLS: nil,
     },
-    // Add prometheus metrics hanlder into temporal client
-    MetricsHandler: sdktally.NewMetricsHandler(newPrometheusScope(prometheus.Configuration{
-        ListenAddress: fmt.Sprintf("0.0.0.0:%d", prometheusPort),
-        TimerType:     "histogram",
-    })),
 })
 if err != nil {
     log.Fatalln("failed to connect temporal", err)
