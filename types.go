@@ -1,8 +1,6 @@
-package types
+package temporalstriker
 
-import (
-	"go.temporal.io/sdk/client"
-)
+import "go.temporal.io/sdk/client"
 
 type MaruConfig struct {
 	Client                 client.Client // temporal client object

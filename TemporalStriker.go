@@ -10,11 +10,10 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/abhishekhugetech/temporalstriker/bench"
-	"github.com/abhishekhugetech/temporalstriker/types"
 	"github.com/abhishekhugetech/temporalstriker/utils"
 )
 
-func Start(config types.MaruConfig) {
+func Start(config MaruConfig) {
 	// Create logger
 	logger, err := zap.NewDevelopment()
 	if err != nil {
@@ -39,7 +38,7 @@ func Start(config types.MaruConfig) {
 }
 
 func startBenchWorker(
-	config types.MaruConfig,
+	config MaruConfig,
 	logger *zap.Logger,
 	tlsConfig *tls.Config,
 ) {

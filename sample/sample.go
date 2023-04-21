@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/abhishekhugetech/temporalstriker"
-	"github.com/abhishekhugetech/temporalstriker/types"
 	"go.temporal.io/sdk/activity"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
@@ -30,7 +29,7 @@ func StartMaruClient() {
 	}
 
 	// need to create dummy workflow
-	maruConfig := types.MaruConfig{
+	maruConfig := temporalstriker.MaruConfig{
 		Client:                 serviceClient,
 		Namespace:              namespace,
 		TemporalHostPort:       hostPort,
