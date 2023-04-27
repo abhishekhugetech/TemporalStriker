@@ -24,14 +24,16 @@ package bench
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"strings"
+	"time"
+
 	"go.temporal.io/api/filter/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"go.temporal.io/sdk/activity"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/log"
-	"strings"
-	"time"
 )
 
 func (a *Activities) MonitorActivity(ctx context.Context, request benchMonitorActivityRequest) ([]histogramValue, error) {
@@ -51,6 +53,7 @@ type (
 		BaseID            string
 		WorkflowName      string
 		Count             int
+		Steps             []benchWorkflowRequestStep
 		StartTime         time.Time
 		IntervalInSeconds int
 	}
@@ -78,8 +81,14 @@ func (m *benchMonitor) run() ([]histogramValue, error) {
 	}
 
 	hist := m.calculateHistogram(stats)
+	loc, _ := time.LoadLocation("")
+	timeFormat := "2006-01-02 15:04:05 MST"
 
-	m.logger.Info("!!! BENCH TEST COMPLETED !!!", "duration", time.Now().Sub(startTime))
+	workflowStepsJSON, _ := json.Marshal(m.request.Steps)
+	workflowStepsJSONString := string(workflowStepsJSON)
+	m.logger.Info("!!! BENCH TEST COMPLETED !!!", "duration", time.Now().Sub(startTime), "Workflow Executions", m.request.Count, "Workflow Steps", workflowStepsJSONString)
+	// Added for testing purposes
+	fmt.Println("Start: ", startTime.Format(timeFormat), " End: ", time.Now().In(loc).Format(timeFormat), " Steps: ", workflowStepsJSONString, " Duration: ", time.Now().Sub(startTime))
 	return hist, nil
 }
 

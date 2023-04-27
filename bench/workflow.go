@@ -192,6 +192,7 @@ func (w *benchWorkflow) executeMonitorActivity(startTime time.Time) (res []histo
 			StartTime:         startTime,
 			BaseID:            w.baseID,
 			Count:             count,
+			Steps:             w.request.Steps,
 			IntervalInSeconds: w.request.Report.IntervalInSeconds,
 		}).Get(w.ctx, &res)
 	return
