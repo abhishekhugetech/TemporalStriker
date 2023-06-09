@@ -105,6 +105,18 @@ tctl --namespace benchtest wf start --tq temporal-bench --wt bench-workflow --wt
 
 The above command will simply start the `dummy-workflow` workflow that we registered with out worker when setting up the TemporalClient.
 
+
+#### 6. Releasing a new update
+
+To release a new update we need to add a tag to the current branch and push the tag to origin.
+
+```bash
+# Adding a tag
+git tag v0.0.13
+# pushing a tag
+git push origin v0.0.13
+```
+
 ## Miscellaneous
 
 ### Adding Metrics handler
