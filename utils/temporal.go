@@ -11,7 +11,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func CreateNamespaceIfNeeded(logger *zap.Logger, namespace string, hostPort string, tlsConfig *tls.Config) {
+func CreateNamespaceIfNeeded(logger *zap.Logger, namespace string, hostPort string, retention time.Duration, tlsConfig *tls.Config) {
 	logger.Info("Creating namespace", zap.String("namespace", namespace), zap.String("hostPort", hostPort))
 
 	createNamespace := func() error {
@@ -31,7 +31,6 @@ func CreateNamespaceIfNeeded(logger *zap.Logger, namespace string, hostPort stri
 		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 		defer cancel()
 
-		retention := 10 * time.Hour * 24
 		err = namespaceClient.Register(ctx, &workflowservice.RegisterNamespaceRequest{
 			Namespace:                        namespace,
 			WorkflowExecutionRetentionPeriod: &retention,

@@ -43,7 +43,7 @@ func startBenchWorker(
 	tlsConfig *tls.Config,
 ) {
 	if !config.SkipNamespaceCreation {
-		utils.CreateNamespaceIfNeeded(logger, config.Namespace, config.TemporalHostPort, tlsConfig)
+		utils.CreateNamespaceIfNeeded(logger, config.Namespace, config.TemporalHostPort, config.NamespaceRetention, tlsConfig)
 	}
 
 	serviceClient := config.Client

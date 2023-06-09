@@ -1,6 +1,10 @@
 package temporalstriker
 
-import "go.temporal.io/sdk/client"
+import (
+	"time"
+
+	"go.temporal.io/sdk/client"
+)
 
 type MaruConfig struct {
 	Client                 client.Client // temporal client object
@@ -10,4 +14,5 @@ type MaruConfig struct {
 	SkipNamespaceCreation  bool          // weather to create the namespace or not
 	StickyCacheSize        int           // Stricky cache size for worker (2048) (def:10K)
 	MaxWorkflowTaskPollers int           // MaxConcurrentWorkflowTaskPollers of worker options
+	NamespaceRetention     time.Duration // NamespaceRetention is the time duration after which the load testing workflows will be removed
 }
